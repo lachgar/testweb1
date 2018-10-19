@@ -256,14 +256,12 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+     
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Services <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="flot.jsp">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.jsp">Morris.js Charts</a>
+                                    <a href="SearchEmployeBetweenDates.jsp">Recherche Employes entre deux Dates</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

@@ -46,10 +46,10 @@ Contributor(s):
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost/h2</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost/h6</property>
     <property name="hibernate.connection.username">root</property>
     <mapping class="beans.Employe"/>
-    <mapping class="beans.EmployeService"/>
     <mapping class="beans.Service"/>
+    <mapping class="beans.EmployeService"/>
   </session-factory>
 </hibernate-configuration>

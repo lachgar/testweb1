@@ -4,6 +4,7 @@
     Author     : mst
 --%>
 
+<%@page import="controller.searchDates"%>
 <%@page import="beans.Employe"%>
 <%@page import="service.EmployeService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -54,44 +55,17 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Gestion des Employes</h1>
+                        <h1 class="page-header">Search Employes Between Dates</h1>
                     </div>
                     <!-- /.col-lg-12 -->
-                    <form action="../AddEmploye" method="GET">
-                    <legend>Ajouter un Employe</legend> 
-
-                    <table border="0">
-
-                        <tr>               
-                            <td><label>Nom :</label></td>
-                            <td></td>
-                            <td><input class="form-control" type="text" name="nom" id="nom"/></td>
-
-                        </tr>
-                        
-                        <tr>               
-                            <td><label>Prenom :</label></td>
-                            <td></td>
-                            <td><input class="form-control" type="text" name="prenom" id="prenom"/></td>
-
-                        </tr>
-                        <tr>               
-                            <td><label>Date Naissance :</label></td>
-                            <td></td>
-                            <td><input class="form-control" type="date" name="dateNaissance" id="dateNaissance"/></td>
-
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><br><button type="submit" value="Valider" id="save" class="btn btn-success">Valider</button><br></td>
-                            <td><br></td>
-
-                        </tr>
-
-                    </table>
-                    <br>
-                    <input type="hidden" id="idupdate" name="idupdate" value="" />
-                </form>
+            
+                    <form action="../searchDates" method="GET">
+                    <div>
+                        <div>Date 1 : <input type="date" name="date1" id="date1" /></div>
+                        <div>Date 2 : <input type="date" name="date2" id="date2" /></div>
+                        <div><button class="btn btn-primary" type="submit"  id="btn1">Search</button></div>
+                    </div>
+                        </form>
                     
                     
             </div>
@@ -118,7 +92,8 @@
                                         <tbody>
                                             <%
                                                 EmployeService es = new EmployeService();
-                                                for (Employe e : es.findAll()) {
+                                                searchDates d = new searchDates();
+                                                for (Employe e : d.getList()) {
                                             %>
                                             <tr>
                                                 <td><%= e.getId()%></td>

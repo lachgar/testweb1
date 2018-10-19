@@ -7,6 +7,7 @@ package service;
 
 import beans.Employe;
 import dao.IDao;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import util.HibernateUtil;
@@ -64,6 +65,17 @@ public class EmployeService implements IDao<Employe>{
         session.getTransaction().commit();
         session.close();  
         return u;
+    }
+    
+    public List<Employe> FindBetweenDates(Date d1, Date d2){
+        List<Employe> ee = null;
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        s.beginTransaction();
+        ee = s.getNamedQuery("empBetweenDates").setParameter(0, d1).setParameter(1, d2).list();
+        s.getTransaction().commit();
+        s.close();
+        
+        return ee;
     }
     
 }

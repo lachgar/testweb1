@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
 @Entity
+@NamedQuery(name = "empBetweenDates", query = "select e from Employe e,EmployeService es where e.id = es.employe.id and es.id.dateDebut <= ? and es.dateFin >= ?")
 public class Employe {   
     @Id
     @GeneratedValue
@@ -31,6 +32,14 @@ public class Employe {
    
     public Employe() {
     }
+
+    public Employe(String nom, String prenom, Date dateNaissance) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateNaissance = dateNaissance;
+    }
+    
+    
 
     public int getId() {
         return id;
