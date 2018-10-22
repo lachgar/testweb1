@@ -8,6 +8,8 @@ package beans;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+
 
 /**
  *
@@ -17,6 +19,7 @@ import javax.persistence.Embeddable;
 public class EmployeServicePk implements Serializable{
     private int employe;
     private int service;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateDebut;
 
     public EmployeServicePk(int employe, int service, Date dateDebut) {
@@ -24,6 +27,11 @@ public class EmployeServicePk implements Serializable{
         this.service = service;
         this.dateDebut = dateDebut;
     }
+
+    public EmployeServicePk() {
+    }
+    
+    
 
     public int getEmploye() {
         return employe;

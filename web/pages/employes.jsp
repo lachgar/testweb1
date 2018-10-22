@@ -4,14 +4,17 @@
     Author     : mst
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="beans.Service"%>
+<%@page import="service.ServiceService"%>
 <%@page import="beans.Employe"%>
-<%@page import="service.EmployeService"%>
+<%@page import="service.Employe_Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title><meta charset="utf-8">
+        <title>Employes</title><meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
@@ -43,6 +46,7 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="../script/script.js" type="text/javascript"></script>
+        <script src="../script/moment.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -57,33 +61,58 @@
                         <h1 class="page-header">Gestion des Employes</h1>
                     </div>
                     <!-- /.col-lg-12 -->
-                    <form action="../AddEmploye" method="GET">
-                    <legend>Ajouter un Employe</legend> 
+
+                    <legend style="margin-left: 2%">Ajouter un Employe</legend> 
 
                     <table border="0">
 
                         <tr>               
-                            <td><label>Nom :</label></td>
+                            <td><label style="margin-bottom: 5%">Nom :</label></td>
                             <td></td>
-                            <td><input class="form-control" type="text" name="nom" id="nom"/></td>
+                            <td><input style="margin-bottom: 5%" class="form-control" type="text" name="nom" id="nom"/></td>
 
                         </tr>
-                        
+
                         <tr>               
-                            <td><label>Prenom :</label></td>
+                            <td><label style="margin-bottom: 5%">Prenom :</label></td>
                             <td></td>
-                            <td><input class="form-control" type="text" name="prenom" id="prenom"/></td>
+                            <td><input style="margin-bottom: 5%" class="form-control" type="text" name="prenom" id="prenom"/></td>
 
                         </tr>
                         <tr>               
-                            <td><label>Date Naissance :</label></td>
+                            <td><label style="margin-bottom: 5%">Date Naissance :</label></td>
                             <td></td>
-                            <td><input class="form-control" type="date" name="dateNaissance" id="dateNaissance"/></td>
+                            <td><input style="margin-bottom: 5%" class="form-control" type="date" name="dateNaissance" id="dateNaissance"/></td>
+
+                        </tr>
+                        <tr>               
+                            <td><label style="margin-bottom: 5%">Service :</label></td>
+                            <td></td>
+                            <td><select style="margin-bottom: 5%" class="form-control" id="service" name="service">
+                                    <% ServiceService ss = new ServiceService();
+                                        for (Service s : ss.findAll()) {
+                                    %>
+                                    <option value="<%=s.getId()%>"><%= s.getNom()%></option>
+                                    <%}%>
+                                </select>
+                            </td>
+
+                        </tr>
+                        <tr>               
+                            <td><label style="margin-bottom: 5%" >Date Debut :</label></td>
+                            <td></td>
+                            <td><input style="margin-bottom: 5%"  class="form-control" type="date" name="dateDebut" id="dateDebut"/></td>
+
+                        </tr>
+                        <tr hidden="true" id="hiddenDate">               
+                            <td><label>Date Fin :</label></td>
+                            <td></td>
+                            <td><input class="form-control" type="date" name="dateFin" id="dateFin"/></td>
 
                         </tr>
                         <tr>
                             <td></td>
-                            <td><br><button type="submit" value="Valider" id="save" class="btn btn-success">Valider</button><br></td>
+                            <td><br><button style="margin-left: 180%" value="Valider" id="save" class="btn btn-success">Ajouter</button><br></td>
                             <td><br></td>
 
                         </tr>
@@ -91,12 +120,12 @@
                     </table>
                     <br>
                     <input type="hidden" id="idupdate" name="idupdate" value="" />
-                </form>
-                    
-                    
-            </div>
-            <!-- /#page-wrapper -->
-              <div class="row">
+
+
+
+                </div>
+                <!-- /#page-wrapper -->
+                <div class="row">
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -112,23 +141,39 @@
                                                 <th>Nom</th>
                                                 <th>Prenom</th>
                                                 <th>Date Naissance</th>
+                                                <th>Service</th>
+                                                <th>Date Debut</th>
+                                                <th>Date Fin</th>
                                                 <th>Suprimer</th>
                                                 <th>Modifier</th>
                                             </tr>
-                                        <tbody>
+                                        </thead>
+                                        <tbody id="mTable">
                                             <%
-                                                EmployeService es = new EmployeService();
-                                                for (Employe e : es.findAll()) {
+                                                Employe_Service es = new Employe_Service();
+                                                String sd = "-----";
+                                                for (Object[] o : es.findEmploye()) {
+                                                    Employe emps = (Employe) o[0];
+                                                    beans.EmployeService empss = (beans.EmployeService) o[1];
+
+                                                    if (empss.getDateFin() != null) {
+                                                        sd = empss.getDateFin().toString();
+                                                    }
+
                                             %>
                                             <tr>
-                                                <td><%= e.getId()%></td>
-                                                <td><%= e.getNom()%></td>
-                                                <td><%= e.getPrenom()%></td>
-                                                <td><%= e.getDateNaissance()%></td>
-                                                <td><a href="../DeleteEmploye?id=<%=e.getId()%>">Supprimer</a></td>
-                                                <td><input id ="update" type="button" value="Modifier" onclick="f2(<%=e.getId()%>, '<%=e.getNom()%>','<%=e.getPrenom()%>','<%=e.getDateNaissance()%>')" /></td>
+                                                <td><%= emps.getId()%></td>
+                                                <td><%= emps.getNom()%></td>
+                                                <td><%= emps.getPrenom()%></td>
+                                                <td><%= empss.getId().getDateDebut()%></td>
+                                                <td><%= empss.getService().getNom()%></td>
+                                                <td><%= empss.getId().getDateDebut()%></td>
+                                                <td><%= sd%></td>
+                                                <td><Button onclick="DeleteEmploye(<%=emps.getId()%>)" class="btn btn-danger" >Supprimer</Button></td>
+                                                <td><Button onclick="f2(<%= emps.getId()%>, '<%= emps.getNom()%>', '<%= emps.getPrenom()%>', '<%= empss.getId().getDateDebut()%>', '<%= empss.getService().getNom()%>', '<%= empss.getId().getDateDebut()%>', '<%=sd%>')" class="btn btn-warning" id ="update">Modifier</Button></td>
                                             </tr>
-                                            <%}%>
+                                            <% sd = "-----";
+                                                }%>
                                         </tbody>
                                     </table>
                                 </div>
@@ -139,34 +184,111 @@
                         <!-- /.panel -->
                     </div>
                 </div>
-        </div>
-        <!-- /#wrapper -->
+            </div>
+            <!-- /#wrapper -->
 
-        <!-- jQuery -->
-        <script src="../vendor/jquery/jquery.min.js"></script>
+            <!-- jQuery -->
+            <script src="../vendor/jquery/jquery.min.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+            <!-- Bootstrap Core JavaScript -->
+            <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+            <!-- Metis Menu Plugin JavaScript -->
+            <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
-        <!-- DataTables JavaScript -->
-        <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-        <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-        <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+            <!-- DataTables JavaScript -->
+            <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+            <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+            <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
 
-        <!-- Custom Theme JavaScript -->
-        <script src="../dist/js/sb-admin-2.js"></script>
+            <!-- Custom Theme JavaScript -->
+            <script src="../dist/js/sb-admin-2.js"></script>
 
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true
-                });
-            });
-        </script>
+            <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+            <script>
+                                                    $(document).ready(function () {
+                                                        $('#dataTables-example').DataTable({
+                                                            responsive: true
+                                                        });
+                                                    });
+
+                                                    $('#save').click(function () {
+
+                                                        let nom = $('#nom').val();
+                                                        let prenom = $('#prenom').val();
+                                                        let dateNaissance = $('#dateNaissance').val();
+                                                        let service = $('#service').val();
+                                                        let dateDebut = $('#dateDebut').val();
+                                                        let dateFin = $('#dateFin').val();
+
+                                                        console.log("Work");
+
+                                                        let idupdate = $('#idupdate').val();
+                                                        let container = $('#mTable');
+
+                                                        $.ajax({
+                                                            url: "../AddEmploye",
+                                                            type: 'GET',
+                                                            data: {nom: nom, prenom: prenom, dateNaissance: dateNaissance, service: service, dateDebut: dateDebut, dateFin: dateFin, idupdate: idupdate},
+                                                            success: function (data) {
+                                                                container.empty();
+                                                                container.html(feedTable(data));
+                                                                $('#nom').val("");      //Clear inputs
+                                                                $('#prenom').val("");
+                                                                $('#dateNaissance').val("");
+                                                                $('#dateDebut').val("");
+                                                                $('#dateFin').val("");
+                                                                $('#dateFin').val("");
+
+                                                                $('#save').html("Ajouter");  //Change Name for Button  
+                                                                $('#idupdate').val("");  //reset idupdate to ""  
+
+                                                                $('#hiddenDate')[0].hidden = true; //to hide the date again,casted by [0] to change to core js for prop  
+                                                            },
+                                                            error: function (errorThrown) {
+                                                                console.log("Error Ajax :" + errorThrown);
+                                                            }
+                                                        });
+                                                    });
+
+                                                    function DeleteEmploye(id) {
+
+                                                        let container = $('#mTable');
+
+                                                        $.ajax({
+                                                            url: "../DeleteEmploye",
+                                                            type: 'GET',
+                                                            data: {id: id},
+                                                            success: function (data) {
+                                                                container.empty();
+                                                                container.html(feedTable(data));
+                                                            },
+                                                            error: function (errorThrown) {
+                                                                console.log("Error Ajax :" + errorThrown);
+                                                            }
+                                                        });
+                                                    }
+
+                                                    function feedTable(data) {
+                                                        var ft = "";
+                                                        var df = "-----";
+
+                                                        for (var i = 0; i < data.length; i++) {
+                                                            var dn = moment(new Date(data[i][0].dateNaissance)).format('L');
+                                                            var dd = moment(new Date(data[i][1].id.dateDebut)).format('L');
+
+                                                            if (data[i][1].dateFin != undefined)
+                                                                df = moment(new Date(data[i][1].dateFin)).format('L');
+
+                                                            var func = "f2(" + data[i][0].id + ",'" + data[i][0].nom + "','" + data[i][0].prenom + "','" + dn + "','" + data[i][1].service.nom + "','" + dd + "','" + df + "')";
+
+                                                            ft += '<tr><td>' + data[i][0].id + '</td><td>' + data[i][0].nom + '</td><td>' + data[i][0].prenom + '</td><td>' + dn + '</td><td>' + data[i][1].service.nom + '</td><td>' + dd + '</td><td>' + df + '</td><td><Button onclick="DeleteEmploye(' + data[i][0].id + ')" class="btn btn-danger" >Supprimer</Button></td><td><Button onclick="' + func + '" class="btn btn-warning" id ="update">Modifier</Button></td></tr>';
+                                                            df = "-----";
+                                                        }
+
+                                                        return ft;
+                                                    }
+            </script>
 
     </body>
 

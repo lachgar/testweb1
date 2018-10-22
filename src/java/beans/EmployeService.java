@@ -6,10 +6,13 @@
 package beans;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -23,12 +26,22 @@ public class EmployeService {
     @ManyToOne
     private Service service;
     @JoinColumn(name = "employe", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne
+    @ManyToOne 
     private Employe employe;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateFin;
     
     public EmployeService() {
     }
+
+    public EmployeService(EmployeServicePk id, Service service, Employe employe, Date dateFin) {
+        this.id = id;
+        this.service = service;
+        this.employe = employe;
+        this.dateFin = dateFin;
+    }
+    
+    
 
     public Date getDateFin() {
         return dateFin;

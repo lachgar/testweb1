@@ -5,15 +5,16 @@
  */
 package controller;
 
+import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import service.EmployeService;
-import service.ServiceService;
+import service.EmployeServiceService;
+import service.Employe_Service;
+
 
 /**
  *
@@ -34,11 +35,6 @@ public class DeleteEmploye extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        EmployeService es = new EmployeService();
-        System.out.println("id ="+request.getParameter("id"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        es.delete(es.findById(id));
-        response.sendRedirect("pages/employes.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,7 +49,16 @@ public class DeleteEmploye extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        EmployeServiceService ess = new EmployeServiceService();
+        Employe_Service es = new Employe_Service();
+        int id = Integer.parseInt(request.getParameter("id"));
+        ess.delete(ess.findByEmployeId(id));
+        es.delete(es.findById(id));
+        
+        response.setContentType("application/json");
+        new Gson().toJson(es.findEmploye(), response.getWriter());
+  
     }
 
     /**

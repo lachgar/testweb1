@@ -6,21 +6,13 @@
 package beans;
 
 import java.util.Date;
-import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
+
 
 @Entity
-@NamedQuery(name = "empBetweenDates", query = "select e from Employe e,EmployeService es where e.id = es.employe.id and es.id.dateDebut <= ? and es.dateFin >= ?")
 public class Employe {   
     @Id
     @GeneratedValue
@@ -30,6 +22,7 @@ public class Employe {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateNaissance;
    
+   
     public Employe() {
     }
 
@@ -38,9 +31,8 @@ public class Employe {
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
     }
-    
-    
 
+  
     public int getId() {
         return id;
     }

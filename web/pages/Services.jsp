@@ -11,7 +11,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title><meta charset="utf-8">
+        <title>Services</title><meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
@@ -60,28 +60,27 @@
                 </div>
                 <!-- /.Form -->
 
-                <form action="../AddService">
-                    <legend>Ajouter Service</legend> 
+                <legend>Ajouter Service</legend> 
 
-                    <table border="0">
+                <table border="0">
 
-                        <tr>               
-                            <td><label>Nom :</label></td>
-                            <td></td>
-                            <td><input class="form-control" type="text" name="nom" id="nom"/></td>
+                    <tr>               
+                        <td><label>Nom :</label></td>
+                        <td></td>
+                        <td><input class="form-control" type="text" name="nom" id="nom"/></td>
 
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><br><button type="submit" value="Valider" id="save" class="btn btn-success">Valider</button><br></td>
-                            <td><br></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><br><button style="margin-left: 170%"  value="Valider" id="save" class="btn btn-success">Ajouter</button><br></td>
+                        <td><br></td>
 
-                        </tr>
+                    </tr>
 
-                    </table>
-                    <br>
-                    <input type="hidden" id="idupdate" name="idupdate" value="" />
-                </form>
+                </table>
+                <br>
+                <input type="hidden" id="idupdate" name="idupdate" value="" />
+
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-6">
@@ -97,10 +96,11 @@
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
+                                                <th>Supprimer</th>
+                                                <th>Modifier</th>
                                             </tr>
-                                        <tbody>
+                                        </thead>
+                                        <tbody id="mTable">
                                             <%
                                                 ServiceService ss = new ServiceService();
                                                 for (Service s : ss.findAll()) {
@@ -108,8 +108,8 @@
                                             <tr>
                                                 <td><%= s.getId()%></td>
                                                 <td><%= s.getNom()%></td>
-                                                <td><a href="../DeleteService?id=<%=s.getId()%>">Supprimer</a></td>
-                                                <td><input id ="update" type="button" value="Modifier" onclick="f(<%=s.getId()%>, '<%=s.getNom()%>')" /></td>
+                                                <td><Button onclick="DeleteService(<%=s.getId()%>)" class="btn btn-primary" >Supprimer</Button></td>
+                                                <td><input class="btn btn-primary" id ="update" type="button" value="Modifier" onclick="f(<%=s.getId()%>, '<%=s.getNom()%>')" /></td>
                                             </tr>
                                             <%}%>
                                         </tbody>
@@ -151,6 +151,62 @@
                                                             responsive: true
                                                         });
                                                     });
+
+                                                    $('#save').click(function () {
+
+                                                        let nom = $('#nom').val();
+                                                        let idupdate = $('#idupdate').val();
+                                                        let container = $('#mTable');
+
+                                                        $.ajax({
+                                                            url: "../AddService",
+                                                            type: 'GET',
+                                                            data: {nom: nom, idupdate: idupdate},
+                                                            success: function (data) {
+                                                                container.empty();
+                                                                container.html(feedTable(data));
+                                                                $('#nom').val("");      //Clear input
+                                                                $('#save').html("Ajouter");  //Change Name for Button  
+                                                                $('#idupdate').val("");  //reset idupdate to ""
+                                                            },
+                                                            error: function (errorThrown) {
+                                                                console.log("Error Ajax :" + errorThrown);
+                                                            }
+                                                        });
+                                                    });
+
+                                                    function DeleteService(id) {
+
+                                                        let container = $('#mTable');
+
+                                                        $.ajax({
+                                                            url: "../DeleteService",
+                                                            type: 'GET',
+                                                            data: {id: id},
+                                                            success: function (data) {
+                                                                if (data.toString() !== "ServiceAttached") {
+                                                                    container.empty();
+                                                                    container.html(feedTable(data));
+                                                                } else {
+                                                                    alert("Tu peux pas supprimer se service ,il contient des Employes");
+                                                                }
+                                                            },
+                                                            error: function (errorThrown) {
+                                                                console.log("Error Ajax :" + errorThrown);
+                                                            }
+                                                        });
+                                                    }
+
+                                                    function feedTable(data) {
+                                                        var ft = "";
+
+                                                        for (var i = 0; i < data.length; i++) {
+                                                            var nom = "'" + data[i].nom + "'";
+                                                            ft += '<tr><td>' + data[i].id + '</td><td>' + data[i].nom + '</td><td><Button onclick="DeleteService(' + data[i].id + ')" class="btn btn-primary" >Supprimer</Button></td><td><input class="btn btn-primary" id ="update" type="button" value="Modifier" onclick="f(' + data[i].id + ',' + nom + ')" /></td></tr>';
+                                                        }
+
+                                                        return ft;
+                                                    }
             </script>
 
     </body>

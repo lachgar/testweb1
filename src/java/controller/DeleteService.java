@@ -5,8 +5,8 @@
  */
 package controller;
 
+import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,11 +32,7 @@ public class DeleteService extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServiceService ss = new ServiceService();
-        System.out.println("id ="+request.getParameter("id"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        ss.delete(ss.findById(id));
-        response.sendRedirect("pages/Services.jsp");
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -51,7 +47,19 @@ public class DeleteService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        ServiceService ss = new ServiceService();
+        int id = Integer.parseInt(request.getParameter("id"));
+        int LinkedServiceCount = ss.ServiceLinkedCount(id);
+        if(LinkedServiceCount == 0){
+        ss.delete(ss.findById(id));
+        
+            response.setContentType("application/json");
+            new Gson().toJson(ss.findAll(), response.getWriter());
+        }else{
+            response.setContentType("application/json");
+            new Gson().toJson("ServiceAttached", response.getWriter()); 
+        }
     }
 
     /**

@@ -5,16 +5,9 @@
  */
 package controller;
 
-import beans.Employe;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,8 +19,8 @@ import service.Employe_Service;
  *
  * @author Sinponzakra
  */
-@WebServlet(name = "searchDates", urlPatterns = {"/searchDates"})
-public class searchDates extends HttpServlet {
+@WebServlet(name = "FilterByService", urlPatterns = {"/FilterByService"})
+public class FilterByService extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,13 +31,10 @@ public class searchDates extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-   static List<Employe> ee ;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException {
-         
+            throws ServletException, IOException {
+       
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -58,25 +48,12 @@ public class searchDates extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-       try {
-           int id = Integer.parseInt(request.getParameter("id"));
-           String date1 = request.getParameter("date1");
-           String date2 = request.getParameter("date2");
-           
-           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-           Date d1 = sdf.parse(date1);
-           Date d2 = sdf.parse(date2);
-           
-           Employe_Service es = new Employe_Service();
-           
-           response.setContentType("application/json");
-           new Gson().toJson(es.FindBetweenDates(id, d1, d2) ,response.getWriter());
-           
-       } catch (ParseException ex) {
-           Logger.getLogger(searchDates.class.getName()).log(Level.SEVERE, null, ex);
-       }
-         
+        
+        Employe_Service es = new Employe_Service();
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        response.setContentType("application/json");
+        new Gson().toJson(es.findEmployesByServiceId(id), response.getWriter());
     }
 
     /**
@@ -90,11 +67,7 @@ public class searchDates extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       try {
-           processRequest(request, response);
-       } catch (ParseException ex) {
-           Logger.getLogger(searchDates.class.getName()).log(Level.SEVERE, null, ex);
-       }
+        processRequest(request, response);
     }
 
     /**

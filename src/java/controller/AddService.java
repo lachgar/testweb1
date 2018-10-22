@@ -6,8 +6,8 @@
 package controller;
 
 import beans.Service;
+import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,17 +34,7 @@ public class AddService extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String nom = request.getParameter("nom").toString();
-        ServiceService ss = new  ServiceService();     
-        if(request.getParameter("idupdate") != ""){
-            int id = Integer.parseInt(request.getParameter("idupdate").toString());
-            Service s1 = ss.findById(id);
-            s1.setNom(nom);
-            ss.update(s1);
-        }else {
-             ss.create(new Service(nom));
-        }
-        response.sendRedirect("pages/Services.jsp");
+       
         
     }
 
@@ -60,7 +50,21 @@ public class AddService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String nom = request.getParameter("nom");
+        ServiceService ss = new  ServiceService();  
+        
+        if(request.getParameter("idupdate").toString() != ""){
+            int id = Integer.parseInt(request.getParameter("idupdate"));
+            Service s1 = ss.findById(id);
+            s1.setNom(nom);
+            ss.update(s1);
+        }else {
+             ss.create(new Service(nom));
+        }
+
+        response.setContentType("application/json");
+        new Gson().toJson(ss.findAll(), response.getWriter());
     }
 
     /**

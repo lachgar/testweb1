@@ -42,7 +42,7 @@
 </head>
 
 <body>
-
+    
     <div id="wrapper">
         <%@ include file="NavbarMenu.jsp" %>
 

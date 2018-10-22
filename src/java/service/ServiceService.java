@@ -66,4 +66,13 @@ public class ServiceService implements IDao<Service>{
         return u;
     }
     
+    public int ServiceLinkedCount(int id){
+        int nb;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        nb =  Integer.parseInt(session.createQuery("SELECT COUNT(s) FROM EmployeService es,Service s WHERE es.service.id = s.id AND s.id="+id).uniqueResult().toString());
+        session.getTransaction().commit();
+        session.close();
+        return nb;
+    }
 }

@@ -245,7 +245,7 @@
                             <a href="index.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Les Gestions<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Gestions<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="employes.jsp"><i class="fa fa-table fa-fw"></i> Gestion des Employes</a>
@@ -263,78 +263,23 @@
                                 <li>
                                     <a href="SearchEmployeBetweenDates.jsp">Recherche Employes entre deux Dates</a>
                                 </li>
+                                 <li>
+                                    <a href="FilterByService.jsp">Filter Employe By Service</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
-                            <a href="forms.jsp"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                        
+                             <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="panels-wells.jsp">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.jsp">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.jsp">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.jsp">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.jsp"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.jsp">Grid</a>
+                                    <a href="E_S_chart.jsp">Employes/Services Chart</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.jsp">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.jsp">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+                       
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

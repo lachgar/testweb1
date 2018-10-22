@@ -1,12 +1,12 @@
 <%-- 
-    Document   : tables
-    Created on : Oct 18, 2018, 9:03:45 PM
-    Author     : mst
+    Document   : FilterByService
+    Created on : 22 oct. 2018, 21:46:21
+    Author     : Sinponzakra
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="beans.Service"%>
 <%@page import="service.ServiceService"%>
-<%@page import="controller.searchDates"%>
 <%@page import="beans.Employe"%>
 <%@page import="service.Employe_Service"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,7 +14,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Between Dates</title><meta charset="utf-8">
+        <title>Filter By Service</title><meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
@@ -58,12 +58,11 @@
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Search Employes Between Dates</h1>
+                        <h1 class="page-header">Filter Employes by Service</h1>
                     </div>
                     <!-- /.col-lg-12 -->
-            
-                    <div>
-                        <label>Service :</label>
+
+                    <label>Service :</label>
 
                     <select style="margin-bottom: 5%" class="form-control" id="service" name="service">
                         <% ServiceService ss = new ServiceService();
@@ -72,16 +71,10 @@
                         <option value="<%=s.getId()%>"><%= s.getNom()%></option>
                         <%}%>
                     </select>
-                    
-                    <div><label style="margin-left: 20%"> Date1 :</label><input style="margin-right: 5%" type="date" name="date1" id="date1" /><label>Date2 :</label><input type="date"  name="date2" id="date2" /></div>
-                    <div><button style="margin-left: 45%;margin-top: 2%;margin-bottom: 2%" class="btn btn-primary" id="btn1">Search</button></div>
-                    </div>
-                        
-                    
-                    
-            </div>
-            <!-- /#page-wrapper -->
-               <div class="row">
+
+                </div>
+                <!-- /#page-wrapper -->
+                <div class="row">
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -115,45 +108,42 @@
                     </div>
                 </div>
             </div>
-        <!-- /#wrapper -->
+            <!-- /#wrapper -->
 
-        <!-- jQuery -->
-        <script src="../vendor/jquery/jquery.min.js"></script>
+            <!-- jQuery -->
+            <script src="../vendor/jquery/jquery.min.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+            <!-- Bootstrap Core JavaScript -->
+            <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+            <!-- Metis Menu Plugin JavaScript -->
+            <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
-        <!-- DataTables JavaScript -->
-        <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-        <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-        <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+            <!-- DataTables JavaScript -->
+            <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+            <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+            <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
 
-        <!-- Custom Theme JavaScript -->
-        <script src="../dist/js/sb-admin-2.js"></script>
+            <!-- Custom Theme JavaScript -->
+            <script src="../dist/js/sb-admin-2.js"></script>
 
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-            $(document).ready(function () {
-                $('#dataTables-example').DataTable({
-                    responsive: true
+            <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+            <script>
+                $(document).ready(function () {
+                    $('#dataTables-example').DataTable({
+                        responsive: true
+                    });
                 });
-            });
-            
-            $('#btn1').on('click',function(){
-                var id = $('#service').val();
-                var date1 = $('#date1').val();
-                var date2 = $('#date2').val();
-                
-                
+
+                $('#service').change(function () {
+                    var id = $('#service').val();
+
                     let container = $('#mTable');
 
                     $.ajax({
-                        url: "../searchDates",
+                        url: "../FilterByService",
                         type: 'GET',
-                        data: {id: id,date1:date1,date2:date2},
+                        data: {id: id},
                         success: function (data) {
                             container.empty();
                             container.html(feedTable(data));
@@ -162,9 +152,8 @@
                             console.log("Error Ajax :" + errorThrown);
                         }
                     });
-            });
-            
-            
+                });
+
                 function feedTable(data) {
                     var ft = "";
                     var df = "-----";
@@ -182,7 +171,7 @@
 
                     return ft;
                 }
-        </script>
+            </script>
 
     </body>
 
