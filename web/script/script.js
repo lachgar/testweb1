@@ -1,9 +1,11 @@
-function f(a, b) {
+function f(a, c, b) {
     var nom = document.getElementById("nom");
+    var code = document.getElementById("code");
     var save = document.getElementById("save");
     var idupdate = document.getElementById("idupdate");
     save.innerHTML = "Modifier";
     nom.value = b;
+    code.value = c;
     idupdate.value = a;
 }
 

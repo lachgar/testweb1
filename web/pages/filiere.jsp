@@ -119,7 +119,7 @@
                                                 <td><%= s.getCode()%></td>
                                                 <td><%= s.getNom()%></td>
                                                 <td><Button onclick="DeleteFiliere(<%=s.getId()%>)" class="btn btn-primary" >Supprimer</Button></td>
-                                                <td><input class="btn btn-primary" id ="update" type="button" value="Modifier" onclick="f(<%=s.getId()%>, '<%=s.getNom()%>')" /></td>
+                                                <td><input class="btn btn-primary" id ="update" type="button" value="Modifier" onclick="f(<%=s.getId()%>,<%=s.getCode()%>, '<%=s.getNom()%>')" /></td>
                                             </tr>
                                             <%}%>
                                         </tbody>
@@ -214,7 +214,7 @@
 
                                                         for (var i = 0; i < data.length; i++) {
                                                             var nom = "'" + data[i].nom + "'";
-                                                            ft += '<tr><td>' + data[i].id + '</td><td>' + data[i].code + '</td><td>' + data[i].nom + '</td><td><Button onclick="DeleteFiliere(' + data[i].id + ')" class="btn btn-primary" >Supprimer</Button></td><td><input class="btn btn-primary" id ="update" type="button" value="Modifier" onclick="f(' + data[i].id + ',' + nom + ')" /></td></tr>';
+                                                            ft += '<tr><td>' + data[i].id + '</td><td>' + data[i].code + '</td><td>' + data[i].nom + '</td><td><Button onclick="DeleteFiliere(' + data[i].id + ')" class="btn btn-primary" >Supprimer</Button></td><td><input class="btn btn-primary" id ="update" type="button" value="Modifier" onclick="f(' + data[i].id + ','+data[i].code+',' + nom + ')" /></td></tr>';
                                                         }
 
                                                         return ft;
