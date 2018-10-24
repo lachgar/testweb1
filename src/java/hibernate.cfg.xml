@@ -51,5 +51,6 @@ Contributor(s):
     <mapping class="beans.Employe"/>
     <mapping class="beans.Service"/>
     <mapping class="beans.EmployeService"/>
+    <mapping class="beans.Filiere"/>
   </session-factory>
 </hibernate-configuration>

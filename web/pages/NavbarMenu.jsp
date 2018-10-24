@@ -253,6 +253,10 @@
                                 <li>
                                     <a href="Services.jsp"><i class="fa fa-table fa-fw"></i> Gestion des Services</a>
                                 </li>
+                                
+                                <li>
+                                    <a href="filiere.jsp"><i class="fa fa-table fa-fw"></i> Gestion des Filieres</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
